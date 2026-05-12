@@ -1,129 +1,130 @@
-# 🫀 K-Means Clustering for Heart Disease Analysis
+# End-to-End KMeans Clustering Project
+### Heart Disease Patient Segmentation with PCA Visualisation & Streamlit Deployment
 
-An unsupervised machine learning project that applies K-Means clustering to a UCI Heart Disease dataset, with an interactive Streamlit app for real-time cluster prediction and an LLM-powered results summary using LLaMA 3 via Ollama (running locally).
-
-> Built following a 2-part YouTube tutorial series and updated for 2026 compatibility.
-> 📺 [Part 1](https://www.youtube.com/watch?v=Io5qEs56US8) | [Part 2](https://www.youtube.com/watch?v=U78Eaa8piBw)
-
----
-
-## 📌 Overview
-
-This project explores patterns in heart disease data by grouping 920 patients into clusters based on clinical features such as age, cholesterol, chest pain type, and heart disease stage. A Streamlit web app lets users input their own health metrics and discover which cluster they belong to.
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Streamlit](https://img.shields.io/badge/Streamlit-Deployed-red)
+![Scikit-learn](https://img.shields.io/badge/Scikit--learn-KMeans-orange)
+![Ollama](https://img.shields.io/badge/Ollama-Llama3-purple)
 
 ---
 
-## ✨ Features
+## 📌 Project Overview
 
-- **Data Preprocessing** — handles missing values, one-hot encodes categorical variables, and standardises numerical features
-- **Elbow Method & Dendrogram** — determines the optimal number of clusters (k=5) using inertia analysis and hierarchical clustering
-- **K-Means Clustering** — partitions 920 patient records into 5 distinct clusters
-- **PCA Visualisation** — reduces dimensionality to 2D for an interactive Plotly cluster scatter plot
-- **LLM Results Analysis** — uses LLaMA 3 (via Ollama, running locally) to generate plain-English summaries of each cluster's medical characteristics
-- **Streamlit App** — interactive dashboard with sidebar inputs, PCA plot, scrollable cluster summaries, and a "Cluster Me" prediction button
+This project applies the **IBM Data Science Lifecycle** to segment heart disease patients into distinct clusters using **KMeans Unsupervised Machine Learning**. The full pipeline covers data preparation, model development, and deployment as an interactive web application.
+
+The project was inspired by and built upon this [YouTube tutorial series](https://www.youtube.com/watch?v=U78Eaa8piBw), with significant updates to adapt the code for 2025/2026 library versions.
 
 ---
 
-## 🗂️ File Structure
+## 🔬 Data Science Lifecycle
 
-```
-Portfolio/
-   ├── K-Means_App2.py          ← Streamlit app (main file)
-   ├── generate_summaries.py    ← Ollama/LLaMA 3 summary generator (run once)
-   ├── kmeans_model.pkl         ← trained KMeans model
-   ├── scaler.pkl               ← trained StandardScaler
-   ├── feature_columns.pkl      ← saved feature column order
-   ├── pca_2d.xlsx              ← PCA coordinates for scatter plot
-   ├── cluster_analysis.xlsx    ← cluster statistics table
-   ├── cluster_summaries.pkl    ← LLM-generated summaries (right panel)
-   ├── Pic1.PNG                 ← sidebar image
-   └── Pic2.PNG                 ← main banner image
-```
-
-> All files must be in the same local folder for the app to run correctly.
+| Phase | What was done |
+|---|---|
+| **Data Preparation** | Cleaned UCI Heart Disease dataset, encoded categorical variables, scaled features with StandardScaler |
+| **Data Exploration** | Visualised distributions and correlations to understand patient profiles |
+| **Model Development** | Applied KMeans (K=5) and PCA dimensionality reduction |
+| **Model Implementation** | Generated AI cluster summaries using Llama3 via Ollama |
+| **Model Deployment** | Built and deployed an interactive Streamlit web app |
 
 ---
 
-## 🚀 How to Run
+## 🧠 Key Modelling Decisions
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/Pranavtamrakar/kmeans-heart-disease.git
-cd kmeans-heart-disease
-```
+### Number of Clusters (K=5)
+The UCI Heart Disease dataset includes a target column with 5 heart disease stages (0–4), which guided the choice of K=5. In a project without labelled data, the **Elbow Method** would be used to find the optimal K by plotting inertia against different values of K.
 
-### 2. Install dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Install and start Ollama (for LLM summaries)
-Download Ollama from [ollama.com](https://ollama.com), then in a terminal run:
-```bash
-ollama serve
-```
-
-### 4. Generate cluster summaries (first time only)
-Open a second terminal and run:
-```bash
-ollama pull llama3
-python generate_summaries.py
-```
-This creates `cluster_summaries.pkl` which powers the summaries panel in the app.
-
-### 5. Launch the Streamlit app
-```bash
-streamlit run K-Means_App2.py
-```
-
-> **After the first setup**, you only need to run `ollama serve` and `streamlit run K-Means_App2.py`.
+### PCA Dimensionality Reduction
+Principal Component Analysis (PCA) was applied to reduce the high-dimensional feature space. **2 principal components** were selected as they retained approximately **30% of the total variability** of the original features — sufficient to produce a meaningful 2D visualisation of cluster separations.
 
 ---
 
-## 🛠️ Tech Stack
+## 🛠️ Tool Stack
 
 | Tool | Purpose |
 |---|---|
-| Python | Core language |
-| Google Colab | Model training and file generation |
-| VS Code | Streamlit app development |
-| Pandas & NumPy | Data manipulation |
-| Scikit-learn | K-Means, PCA, StandardScaler |
-| Matplotlib & Seaborn | EDA and cluster visualisation |
-| Plotly | Interactive PCA scatter plot in Streamlit |
-| Streamlit | Web app dashboard |
-| Ollama + LLaMA 3 | Local LLM-powered cluster summaries |
+| Python | Core programming language |
+| Google Colab | Model training environment |
+| Pandas | Data manipulation |
+| Scikit-learn | KMeans clustering & StandardScaler |
+| Plotly | Interactive PCA scatter chart |
+| Ollama + Llama3 | Local LLM for cluster summary generation |
+| VS Code | App development |
+| Streamlit | Web app deployment |
 | Pickle / Excel | Model and data persistence |
 
 ---
 
-## 📊 Dataset
+## 📁 File Structure
 
-**Heart Disease UCI** — sourced from [Kaggle](https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data)
-
-- 920 patient records across 4 datasets: Cleveland, Hungary, Switzerland, VA Long Beach
-- 15 features including age, sex, chest pain type, cholesterol, resting ECG, and heart disease stage (0–4)
-
----
-
-## 🔍 Cluster Summary
-
-| Cluster | Avg Age | Avg Heart Disease Stage | Key Characteristic |
-|---|---|---|---|
-| 0 | 48.9 | 0.03 | Youngest group, virtually no heart disease |
-| 1 | 59.0 | 1.33 | Older males, early-stage heart disease |
-| 2 | 56.4 | 1.74 | Moderate disease, elevated Ca levels |
-| 3 | 57.5 | 1.80 | Most severe symptoms, very low cholesterol |
-| 4 | 50.4 | 0.89 | Mild disease, highest average cholesterol |
+```
+📁 End-to-End-K-Means-Cluster-Project/
+   ├── K-Means_App2.py            # Streamlit web app
+   ├── generate_summaries.py      # Llama3 cluster summary generator
+   ├── cluster_analysis.xlsx      # Cluster statistics table
+   ├── cluster_summaries.pkl      # LLM-generated summaries
+   ├── kmeans_model.pkl           # Trained KMeans model
+   ├── scaler.pkl                 # Trained StandardScaler
+   ├── pca_2d.xlsx                # PCA coordinates for scatter plot
+   ├── heart_disease_uci.csv      # Original dataset
+   ├── Pic1.PNG                   # Sidebar image
+   ├── Pic2.PNG                   # Banner image
+   └── README.md
+```
 
 ---
 
-## 🔄 2024 → 2026 Code Updates
+## 🚀 How to Run Locally
 
-Some syntax changes were required to make the tutorial code compatible with current library versions:
+### Prerequisites
+- Python 3.10+
+- [Ollama](https://ollama.com) installed and running
 
-| What changed | Old | New |
-|---|---|---|
-| Streamlit image display | `use_column_width=True` | `use_container_width=True` |
-| Ollama response access | `response.content` | `response['message']['content']` |
-| Pandas group mean | `group.mean()` | `group.mean(numeric_only=True)` |
+### Step 1 — Install dependencies
+```bash
+pip install streamlit pandas plotly scikit-learn pillow openpyxl ollama
+```
+
+### Step 2 — Start Ollama and pull Llama3
+```bash
+ollama serve
+ollama pull llama3
+```
+
+### Step 3 — Generate cluster summaries (run once)
+```bash
+python generate_summaries.py
+```
+
+### Step 4 — Launch the Streamlit app
+```bash
+streamlit run K-Means_App2.py
+```
+
+---
+
+## 📊 App Features
+
+- **Sidebar inputs** — Enter your own clinical data (age, cholesterol, blood pressure, etc.)
+- **PCA Scatter Chart** — Interactive visualisation of all 5 patient clusters
+- **Cluster Summaries** — AI-generated plain-English descriptions of each cluster
+- **Cluster Me button** — Predicts which cluster you belong to based on your inputs
+- **Cluster Analysis Table** — Statistical summary table of all clusters
+
+---
+
+## 📚 References
+
+- [YouTube Tutorial Series](https://www.youtube.com/watch?v=U78Eaa8piBw)
+- [IBM Data Science Lifecycle](https://public.dhe.ibm.com/software/data/sw-library/analytics/data-science-lifecycle/)
+- [UCI Heart Disease Dataset](https://archive.ics.uci.edu/dataset/45/heart+disease)
+
+---
+
+## 👤 Author
+
+**Alberto Aguilera R.**
+[GitHub](https://github.com/AlbertoAguileraR)
+
+---
+
+*This project was built as part of a portfolio to demonstrate end-to-end data science and ML deployment skills.*
